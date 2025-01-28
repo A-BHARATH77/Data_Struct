@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Case-Sensitive Character Count</title>
+</head>
+<body>
+    <h2>Case-Sensitive Character Count in a String</h2>
+    <form id="inputForm">
+        <label for="inputString">Enter a string:</label>
+        <input type="text" id="inputString" name="inputString" required>
+        <br><br>
+        <label for="inputChar">Enter a character to count:</label>
+        <input type="text" id="inputChar" name="inputChar" maxlength="1" required>
+        <br><br>
+        <button type="submit">Count Character</button>
+    </form>
+    <br>
+    <div id="output"></div>
+
+    <script>
+        document.getElementById('inputForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the form from submitting the traditional way
+
+            // Get the input values
+            const s = document.getElementById('inputString').value;
+            const ch = document.getElementById('inputChar').value;
+
+            // Using an array to store the count of each alphabet by mapping the character to an index value
+            const arr = Array(52).fill(0); // Array size for both lowercase and uppercase
+
+            // Storing the count
+            for (let i = 0; i < s.length; i++) {
+                const charCode = s.charCodeAt(i);
+                if (charCode >= 'a'.charCodeAt(0) && charCode <= 'z'.charCodeAt(0)) {
+                    arr[charCode - 'a'.charCodeAt(0)]++;
+                } else if (charCode >= 'A'.charCodeAt(0) && charCode <= 'Z'.charCodeAt(0)) {
+                    arr[26 + charCode - 'A'.charCodeAt(0)]++; // Offset for uppercase letters
+                }
+            }
+
+            // Get count of the specified character
+            const charCode = ch.charCodeAt(0);
+            let count = 0;
+            if (charCode >= 'a'.charCodeAt(0) && charCode <= 'z'.charCodeAt(0)) {
+                count = arr[charCode - 'a'.charCodeAt(0)];
+            } else if (charCode >= 'A'.charCodeAt(0) && charCode <= 'Z'.charCodeAt(0)) {
+                count = arr[26 + charCode - 'A'.charCodeAt(0)];
+            }
+
+            // Display the result
+            document.getElementById('output').innerText = `The count of '${ch}' is ${count}`;
+        });
+        document.addEventListener("DOMContentLoaded", function() {
+  const button1 = document.getElementById('backbutton');
+  if (backbutton) {
+    backbutton.addEventListener('click', () => {
+      window.location.href = 'home.html';
+    });
+} 
+});
+    </script>
+    <div><button id="backbutton">BACK</button></div></body>
+</html>

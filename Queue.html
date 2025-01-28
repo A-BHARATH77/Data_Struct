@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Queue Implementation</title>
+</head>
+<body>
+    <h2>Queue Operations</h2>
+    <form id="queueForm">
+        <label for="element">Element (for insert/search):</label>
+        <input type="text" id="element" name="element">
+        <br><br>
+        <button type="button" id="insertButton">Insert Element</button>
+        <button type="button" id="deleteButton">Delete Element</button>
+        <button type="button" id="searchButton">Search Element</button>
+    </form>
+    <br>
+    <div id="output"></div>
+
+    <script>
+        class Queue {
+            constructor() {
+                this.items = [];
+                this.head = 0;
+                this.tail = -1;
+            }
+
+            // Insert element at the end of the queue
+            enqueue(element) {
+                this.items.push(element);
+                this.tail++;
+            }
+
+            // Delete element from the front of the queue
+            dequeue() {
+                if (this.isEmpty()) {
+                    return "Queue is empty";
+                }
+                const removedElement = this.items[this.head];
+                this.head++;
+                return removedElement;
+            }
+
+            // Check if the queue is empty
+            isEmpty() {
+                return this.head > this.tail;
+            }
+
+            // Search for an element and return its index
+            search(element) {
+                for (let i = this.head; i <= this.tail; i++) {
+                    if (this.items[i] === element) {
+                        return i;
+                    }
+                }
+                return -1;
+            }
+
+            // Get current head and tail positions
+            getPositions() {
+                return { head: this.head, tail: this.tail };
+            }
+
+            // Get all elements in the queue
+            getElements() {
+                return this.items.slice(this.head, this.tail + 1);
+            }
+        }
+
+        const queue = new Queue();
+
+        document.getElementById('insertButton').addEventListener('click', function() {
+            const elementinput=document.getElementById('element')
+            const element = elementinput.value.trim();
+            elementinput.value = '';
+            if (element === "") {
+                alert("Please enter a valid element to insert.");
+                return;
+            }
+            queue.enqueue(element);
+            displayOutput(`Inserted ${element} into the queue.`);
+        });
+
+        document.getElementById('deleteButton').addEventListener('click', function() {
+            const removedElement = queue.dequeue();
+            deleteinput.value=''
+            displayOutput(removedElement === "Queue is empty" ? removedElement : `Deleted ${removedElement} from the queue.`);
+        });
+
+        document.getElementById('searchButton').addEventListener('click', function() {
+
+            const element = document.getElementById('element').value.trim();
+            if (element === "") {
+                alert("Please enter a valid element to search.");
+                return;
+            }
+            const index = queue.search(element);
+            displayOutput(index === -1 ? `${element} not found in the queue.` : `${element} found at index ${index}.`);
+        });
+
+        function displayOutput(message) {
+            const positions = queue.getPositions();
+            const elements = queue.getElements();
+            document.getElementById('output').innerHTML = `
+                ${message}<br>
+                Current Queue: ${elements.join(', ')}<br>
+                Head Position: ${positions.head}<br>
+                Tail Position: ${positions.tail}
+            `;
+        }
+        document.addEventListener("DOMContentLoaded", function() {
+  const button1 = document.getElementById('backbutton');
+  if (backbutton) {
+    backbutton.addEventListener('click', () => {
+      window.location.href = 'home.html';
+    });
+} 
+});
+    </script>
+    <div><button id="backbutton">BACK</button></div></body>
+</body>
+</html>

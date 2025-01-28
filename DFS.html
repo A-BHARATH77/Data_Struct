@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DFS Traversal</title>
+    <style>
+        .node-inputs {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Depth-First Search (DFS) Traversal</h2>
+    <div>
+        <label for="startNodeInput">Enter the start node:</label>
+        <input type="text" id="startNodeInput">
+    </div>
+    <div id="edgesInputContainer">
+        <div class="node-inputs">
+            <label>Enter edge (node1, node2):</label>
+            <input type="text" class="node1">
+            <input type="text" class="node2">
+        </div>
+    </div>
+    <button onclick="addEdgeInput()">Add another edge</button>
+    <button onclick="performDFS()">Perform DFS</button>
+    <div>
+        <h3>DFS Traversal:</h3>
+        <div id="output"></div>
+    </div>
+
+    <script>
+        function addEdgeInput() {
+            const edgesInputContainer = document.getElementById('edgesInputContainer');
+            const edgeInputDiv = document.createElement('div');
+            edgeInputDiv.className = 'node-inputs';
+            edgeInputDiv.innerHTML = `
+                <label>Enter edge (node1, node2):</label>
+                <input type="text" class="node1">
+                <input type="text" class="node2">
+            `;
+            edgesInputContainer.appendChild(edgeInputDiv);
+        }
+
+        function performDFS() {
+            const startNodeInput = document.getElementById('startNodeInput').value;
+            const outputDiv = document.getElementById('output');
+            const node1Inputs = document.querySelectorAll('.node1');
+            const node2Inputs = document.querySelectorAll('.node2');
+
+            if (!startNodeInput) {
+                alert("Please enter the start node.");
+                return;
+            }
+
+            const adjacencyList = {};
+            for (let i = 0; i < node1Inputs.length; i++) {
+                const node1 = node1Inputs[i].value.trim();
+                const node2 = node2Inputs[i].value.trim();
+
+                if (!node1 || !node2) {
+                    alert("Please enter valid nodes for all edges.");
+                    return;
+                }
+
+                if (!adjacencyList[node1]) adjacencyList[node1] = [];
+                if (!adjacencyList[node2]) adjacencyList[node2] = [];
+
+                adjacencyList[node1].push(node2);
+                adjacencyList[node2].push(node1);
+            }
+
+            const dfsTraversal = dfs(adjacencyList, startNodeInput);
+            outputDiv.innerHTML = dfsTraversal.join(' ');
+        }
+
+        function dfs(adjacencyList, startNode) {
+            const visited = new Set();
+            const traversal = [];
+
+            function dfsVisit(node) {
+                if (!visited.has(node)) {
+                    visited.add(node);
+                    traversal.push(node);
+                    const neighbors = adjacencyList[node] || [];
+                    for (const neighbor of neighbors) {
+                        dfsVisit(neighbor);
+                    }
+                }
+            }
+
+            dfsVisit(startNode);
+            return traversal;
+        }
+        document.addEventListener("DOMContentLoaded", function() {
+  const button1 = document.getElementById('backbutton');
+  if (backbutton) {
+    backbutton.addEventListener('click', () => {
+      window.location.href = 'home.html';
+    });
+} 
+});
+    </script>
+    <div><button id="backbutton">BACK</button></div>
+</body>
+</html>
